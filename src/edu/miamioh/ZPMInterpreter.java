@@ -16,7 +16,7 @@ public class ZPMInterpreter {
 		//the array list will hold the variable type as well as the value
 		table = new HashMap<String, Pair<String, String>>();
 		
-		in = new Scanner(new File("prog3.zpm"));
+		in = new Scanner(new File("prog4.zpm"));
 		lineCounter = 0;
 		while(in.hasNextLine()) {
 			lineCounter++;
@@ -190,16 +190,18 @@ public class ZPMInterpreter {
 		
 		
 		for(int i = 0; i < increment; i++) {
-			
+		
 			//collects all of the assignment statements to be done in the for loop
 			int startIndex = currentLine.indexOf(' ', 4) + 1;
 			String currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';', startIndex) + 1);
-		
+			
 			while(currentStatement.equals("ENDFOR") == false) {
+				System.out.println(currentStatement);
 				executeAssignment(currentStatement);
 				//changes the start index to be where the next command begins
 				startIndex += currentStatement.length() + 1;
-				if(currentLine.substring(startIndex).equals("ENDFOR") == true) {
+				if(currentLine.substring(startIndex, startIndex + 6).equals("ENDFOR") == true) {
+					startIndex += 7;
 					break;
 				}
 				//changes the current statement for the next iteration
