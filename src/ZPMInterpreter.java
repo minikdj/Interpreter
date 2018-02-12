@@ -1,4 +1,3 @@
-package edu.miamioh;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +15,7 @@ public class ZPMInterpreter {
 		//the array list will hold the variable type as well as the value
 		table = new HashMap<String, Pair<String, String>>();
 		
-		in = new Scanner(new File("prog4.zpm"));
+		in = new Scanner(new File("prog1.zpm"));
 		lineCounter = 0;
 		while(in.hasNextLine()) {
 			lineCounter++;
@@ -25,6 +24,7 @@ public class ZPMInterpreter {
 		}
 
 		in.close();
+	
 	}
 	
 	private static void executeAssignment(String currentLine) {

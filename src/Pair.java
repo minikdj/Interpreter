@@ -1,4 +1,3 @@
-package edu.miamioh;
 
 public class Pair<S, T> {
     public S x; //Type of variable being stored
