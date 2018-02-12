@@ -188,33 +188,26 @@ public class ZPMInterpreter {
 		//finds the number of times the for loop should be executed
 		int increment = (int)Integer.parseInt(currentLine.substring(4, currentLine.indexOf(' ', 4)));
 		
-		
+		int startIndex = 0;
 		for(int i = 0; i < increment; i++) {
 		
 			//collects all of the assignment statements to be done in the for loop
-			int startIndex = currentLine.indexOf(' ', 4) + 1;
+			startIndex = currentLine.indexOf(' ', 4) + 1;
 			String currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';', startIndex) + 1);
 			
 			while(currentStatement.equals("ENDFOR") == false) {
-				System.out.println(currentStatement);
+				
 				executeAssignment(currentStatement);
 				//changes the start index to be where the next command begins
 				startIndex += currentStatement.length() + 1;
 				if(currentLine.substring(startIndex, startIndex + 6).equals("ENDFOR") == true) {
-					startIndex += 7;
 					break;
 				}
-				//changes the current statement for the next iteration
-				currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';', startIndex) + 1);
-			
+				currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';', startIndex) + 1);		
 			}
 		}
 		
-		
 	}
-	
-	
-	
 	
 	
 }
