@@ -179,9 +179,19 @@ public class ZPMInterpreter {
 	}
 	
 	private static void forLoop(String currentLine) {
-		//finds the index to be incremented
+		
+		//finds the number of times the for loop should be executed
 		int increment = (int)Integer.parseInt(currentLine.substring(4, currentLine.indexOf(' ', 4)));
 		
+		/*
+		 * need to take the block from the main method which says which statement is going to be made
+		 * and make that into a method, then for the for loop, just take every currentStatement and 
+		 * put that as the input for finding the assignment
+		 */
+		
+		
+		
+		//collects all of the assignment statements to be done in the for loop
 		int startIndex = currentLine.indexOf(' ', 4) + 1;
 		String currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';') - 1);
 		while(currentStatement.equals("ENDFOR") == false) {
