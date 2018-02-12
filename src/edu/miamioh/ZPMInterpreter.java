@@ -16,40 +16,44 @@ public class ZPMInterpreter {
 		//the array list will hold the variable type as well as the value
 		table = new HashMap<String, Pair<String, String>>();
 		
-		in = new Scanner(new File("prog3.zpm"));
+		in = new Scanner(new File("prog2.zpm"));
 		lineCounter = 0;
 		while(in.hasNextLine()) {
 			lineCounter++;
 			String currentLine = in.nextLine();
-			if(currentLine.contains("FOR")) {
-				forLoop(currentLine);
-			}
-			else if(currentLine.contains("PRINT")) {
-				String varName = currentLine.substring(currentLine.indexOf(" ") + 1, currentLine.lastIndexOf(" "));
-				printStatement(varName);
-			}
-			else if(currentLine.contains(" = ")) {
-				assignmentStatement(currentLine);
-			}
-			else if(currentLine.contains(" += ")) {
-				String leftSide = currentLine.substring(0, currentLine.indexOf("+") - 1);
-				String rightSide = currentLine.substring(currentLine.indexOf("=") + 2, currentLine.indexOf(";") - 1);
-				plusEquals(leftSide, rightSide);
-			}
-			else if(currentLine.contains(" -= ")) {
-				String leftSide = currentLine.substring(0, currentLine.indexOf("-") - 1);
-				String rightSide = currentLine.substring(currentLine.indexOf("=") + 2, currentLine.indexOf(";") - 1);
-				minusEquals(leftSide, rightSide);
-			}
-			//if the statement is for *=
-			else{
-				String leftSide = currentLine.substring(0, currentLine.indexOf("*") - 1);
-				String rightSide = currentLine.substring(currentLine.indexOf("=") + 2, currentLine.indexOf(";") - 1);
-				timesEquals(leftSide, rightSide);
-			}
+			executeAssignment(currentLine);
 		}
 
 		in.close();
+	}
+	
+	private static void executeAssignment(String currentLine) {
+		if(currentLine.contains("FOR")) {
+			forLoop(currentLine);
+		}
+		else if(currentLine.contains("PRINT")) {
+			String varName = currentLine.substring(currentLine.indexOf(" ") + 1, currentLine.lastIndexOf(" "));
+			printStatement(varName);
+		}
+		else if(currentLine.contains(" = ")) {
+			assignmentStatement(currentLine);
+		}
+		else if(currentLine.contains(" += ")) {
+			String leftSide = currentLine.substring(0, currentLine.indexOf("+") - 1);
+			String rightSide = currentLine.substring(currentLine.indexOf("=") + 2, currentLine.indexOf(";") - 1);
+			plusEquals(leftSide, rightSide);
+		}
+		else if(currentLine.contains(" -= ")) {
+			String leftSide = currentLine.substring(0, currentLine.indexOf("-") - 1);
+			String rightSide = currentLine.substring(currentLine.indexOf("=") + 2, currentLine.indexOf(";") - 1);
+			minusEquals(leftSide, rightSide);
+		}
+		//if the statement is for *=
+		else{
+			String leftSide = currentLine.substring(0, currentLine.indexOf("*") - 1);
+			String rightSide = currentLine.substring(currentLine.indexOf("=") + 2, currentLine.indexOf(";") - 1);
+			timesEquals(leftSide, rightSide);
+		}
 	}
 	
 	private static void assignmentStatement(String currentLine) {
@@ -82,15 +86,16 @@ public class ZPMInterpreter {
 			return;
 		}
 		String leftSideType = table.get(leftSide).x;
-		String rightSideType = null;
+		String rightSideType;
 		if(rightSide.contains("\"")) {
 			 rightSideType = "STRING";
 			 rightSide = rightSide.replaceAll("\"", "");
 		}
-		else if(table.get(rightSide).y == null) {
+		else if(rightSide.matches(".*\\d+.*")) {
 			rightSideType = "INT";
 		}
 		else {
+			
 			if(leftSideType.equals(table.get(rightSide).x) == false) {
 				System.out.println("RUNTIME ERROR: line " + lineCounter);
 				return;
@@ -104,10 +109,10 @@ public class ZPMInterpreter {
 			System.out.println("RUNTIME ERROR: line " + lineCounter);
 			return;
 		}
-		//actually adding the values together, use an if statement to see what the type is and i made a temp variable
+		//actually adding the values together, use an if statement to see what the type is and I made a temp variable
 		//in each case that would be inserted into the pair
 		else {
-			if(leftSide.equals("STRING") == true) {
+			if(leftSideType.equals("STRING") == true) {
 				String temp = table.get(leftSide).y;
 				temp += rightSide;
 				table.put(leftSide, new Pair<String, String>("STRING", temp));
@@ -132,7 +137,7 @@ public class ZPMInterpreter {
 		else if(rightSide.matches(".*\\d+.*")) {
 			rightSideType = "INT";
 		}
-		else {//need to handle if right side is a variable name
+		else {
 			rightSideType = table.get(rightSide).x;
 			rightSide = table.get(rightSide).y;
 		}
@@ -193,7 +198,7 @@ public class ZPMInterpreter {
 		int startIndex = currentLine.indexOf(' ', 4) + 1;
 		String currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';') - 1);
 		while(currentStatement.equals("ENDFOR") == false) {
-			System.out.println(currentStatement);
+			//System.out.println(currentStatement);
 			
 			//changes the start index to be where the next command begins
 			startIndex += currentStatement.length() + 3;
