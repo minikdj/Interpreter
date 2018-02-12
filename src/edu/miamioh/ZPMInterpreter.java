@@ -189,8 +189,6 @@ public class ZPMInterpreter {
 		 * put that as the input for finding the assignment
 		 */
 		
-		
-		
 		//collects all of the assignment statements to be done in the for loop
 		int startIndex = currentLine.indexOf(' ', 4) + 1;
 		String currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';') - 1);
