@@ -16,7 +16,7 @@ public class ZPMInterpreter {
 		//the array list will hold the variable type as well as the value
 		table = new HashMap<String, Pair<String, String>>();
 		
-		in = new Scanner(new File("prog2.zpm"));
+		in = new Scanner(new File("prog3.zpm"));
 		lineCounter = 0;
 		while(in.hasNextLine()) {
 			lineCounter++;
@@ -188,23 +188,26 @@ public class ZPMInterpreter {
 		//finds the number of times the for loop should be executed
 		int increment = (int)Integer.parseInt(currentLine.substring(4, currentLine.indexOf(' ', 4)));
 		
-		/*
-		 * need to take the block from the main method which says which statement is going to be made
-		 * and make that into a method, then for the for loop, just take every currentStatement and 
-		 * put that as the input for finding the assignment
-		 */
 		
-		//collects all of the assignment statements to be done in the for loop
-		int startIndex = currentLine.indexOf(' ', 4) + 1;
-		String currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';') - 1);
-		while(currentStatement.equals("ENDFOR") == false) {
-			//System.out.println(currentStatement);
+		for(int i = 0; i < increment; i++) {
 			
-			//changes the start index to be where the next command begins
-			startIndex += currentStatement.length() + 3;
-			//changes the current statement for the next iteration
-			currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';', startIndex) - 1);
+			//collects all of the assignment statements to be done in the for loop
+			int startIndex = currentLine.indexOf(' ', 4) + 1;
+			String currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';', startIndex) + 1);
+		
+			while(currentStatement.equals("ENDFOR") == false) {
+				executeAssignment(currentStatement);
+				//changes the start index to be where the next command begins
+				startIndex += currentStatement.length() + 1;
+				if(currentLine.substring(startIndex).equals("ENDFOR") == true) {
+					break;
+				}
+				//changes the current statement for the next iteration
+				currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';', startIndex) + 1);
+			
+			}
 		}
+		
 		
 	}
 	
