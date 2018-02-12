@@ -16,13 +16,13 @@ public class ZPMInterpreter {
 		//the array list will hold the variable type as well as the value
 		table = new HashMap<String, Pair<String, String>>();
 		
-		in = new Scanner(new File("prog1.zpm"));
+		in = new Scanner(new File("prog3.zpm"));
 		lineCounter = 0;
 		while(in.hasNextLine()) {
 			lineCounter++;
 			String currentLine = in.nextLine();
 			if(currentLine.contains("FOR")) {
-				System.out.println("Has a for loop");
+				forLoop(currentLine);
 			}
 			else if(currentLine.contains("PRINT")) {
 				String varName = currentLine.substring(currentLine.indexOf(" ") + 1, currentLine.lastIndexOf(" "));
@@ -177,4 +177,16 @@ public class ZPMInterpreter {
 			table.put(leftSide, new Pair<String, String>("INT", Integer.toString(temp)));
 		}
 	}
+	
+	private static void forLoop(String currentLine) {
+		//finds the index to be incremented
+		int increment = (int)Integer.parseInt(currentLine.substring(4, currentLine.indexOf(' ', 4)));
+		System.out.println(increment);
+		return;
+	}
+	
+	
+	
+	
+	
 }
