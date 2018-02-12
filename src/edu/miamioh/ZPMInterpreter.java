@@ -181,8 +181,18 @@ public class ZPMInterpreter {
 	private static void forLoop(String currentLine) {
 		//finds the index to be incremented
 		int increment = (int)Integer.parseInt(currentLine.substring(4, currentLine.indexOf(' ', 4)));
-		System.out.println(increment);
-		return;
+		
+		int startIndex = currentLine.indexOf(' ', 4) + 1;
+		String currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';') - 1);
+		while(currentStatement.equals("ENDFOR") == false) {
+			System.out.println(currentStatement);
+			
+			//changes the start index to be where the next command begins
+			startIndex += currentStatement.length() + 3;
+			//changes the current statement for the next iteration
+			currentStatement = currentLine.substring(startIndex, currentLine.indexOf(';', startIndex) - 1);
+		}
+		
 	}
 	
 	
