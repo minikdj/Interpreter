@@ -14,8 +14,7 @@ public class ZPMInterpreter {
 		//the key will be the variable name in the form of a string
 		//the array list will hold the variable type as well as the value
 		table = new HashMap<String, Pair<String, String>>();
-		
-		in = new Scanner(new File("prog1.zpm"));
+		in = new Scanner(new File(args[0]));
 		lineCounter = 0;
 		while(in.hasNextLine()) {
 			lineCounter++;
@@ -83,10 +82,10 @@ public class ZPMInterpreter {
 	private static void plusEquals(String leftSide, String rightSide) {
 		if(table.get(leftSide) == null) {
 			System.out.println("RUNTIME ERROR: line " + lineCounter);
-			return;
+			System.exit(0);
 		}
 		String leftSideType = table.get(leftSide).x;
-		String rightSideType;
+		String rightSideType = null;
 		if(rightSide.contains("\"")) {
 			 rightSideType = "STRING";
 			 rightSide = rightSide.replaceAll("\"", "");
@@ -98,7 +97,7 @@ public class ZPMInterpreter {
 			
 			if(leftSideType.equals(table.get(rightSide).x) == false) {
 				System.out.println("RUNTIME ERROR: line " + lineCounter);
-				return;
+				System.exit(0);
 			}
 			else {
 				rightSide = table.get(rightSide).y;
@@ -107,7 +106,7 @@ public class ZPMInterpreter {
 		}
 		if (leftSideType.equals(rightSideType) == false) {
 			System.out.println("RUNTIME ERROR: line " + lineCounter);
-			return;
+			System.exit(0);
 		}
 		//actually adding the values together, use an if statement to see what the type is and I made a temp variable
 		//in each case that would be inserted into the pair
@@ -127,7 +126,7 @@ public class ZPMInterpreter {
 	private static void minusEquals(String leftSide, String rightSide) {
 		if(table.get(leftSide) == null) {
 			System.out.println("RUNTIME ERROR: line " + lineCounter);
-			return;
+			System.exit(0);
 		}
 		String leftSideType = table.get(leftSide).x;
 		String rightSideType = null;
@@ -143,7 +142,7 @@ public class ZPMInterpreter {
 		}
 		if(leftSideType.equals("STRING") == true || rightSideType.equals("STRING") == true) {
 			System.out.println("RUNTIME ERROR: line " + lineCounter);
-			return;
+			System.exit(0);
 		}
 		else {
 			int tempRightSide = (int)Integer.parseInt(rightSide);
@@ -157,7 +156,7 @@ public class ZPMInterpreter {
 	private static void timesEquals(String leftSide, String rightSide) {
 		if(table.get(leftSide) == null) {
 			System.out.println("RUNTIME ERROR: line " + lineCounter);
-			return;
+			System.exit(0);
 		}
 		String leftSideType = table.get(leftSide).x;
 		String rightSideType = null;
@@ -173,7 +172,7 @@ public class ZPMInterpreter {
 		}
 		if(leftSideType.equals("STRING") == true || rightSideType.equals("STRING") == true) {
 			System.out.println("RUNTIME ERROR: line " + lineCounter);
-			return;
+			System.exit(0);
 		}
 		else {
 			int tempRightSide = (int)Integer.parseInt(rightSide);
